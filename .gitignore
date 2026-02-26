@@ -42,3 +42,7 @@
 
 # Build directories
 /build/
+
+# .devcontainer and .github
+.devcontainer
+.github
