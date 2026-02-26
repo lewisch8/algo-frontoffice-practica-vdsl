@@ -29,3 +29,18 @@ Para ejecutar los tests unitarios:
 ```bash
 ./unit_tests --log_level=message
 ```
+
+# Flujo para subir cambios a la rama
+```bash
+# para subir todos los cambios a stage
+git add .
+
+# para subir solo un fichero a stage
+git add {mifichero}
+
+# para hacer el commit
+git commit -m "mensaje descriptivo"
+
+# Subir al repo de github
+git push origin main
+```
