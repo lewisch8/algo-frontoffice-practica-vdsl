@@ -24,7 +24,8 @@ find_package(Boost 1.83 REQUIRED CONFIG COMPONENTS system date_time unit_test_fr
 
 set (SOURCES
     apps/main.cpp
-    src/daycount/DayCountFactory.cpp)
+    src/daycount/DayCountFactory.cpp
+    src/factory/Swapbuilder.cpp)
 
 # Definir test de Boost por ahora
 add_executable(proyecto ${SOURCES})
