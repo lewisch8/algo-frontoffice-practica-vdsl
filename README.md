@@ -44,3 +44,8 @@ git commit -m "mensaje descriptivo"
 # Subir al repo de github
 git push origin main
 ```
+
+# Como traer la info del repo de github
+```bash
+git pull origin main
+```
