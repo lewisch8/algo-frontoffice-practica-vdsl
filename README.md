@@ -30,13 +30,18 @@ Para ejecutar los tests unitarios:
 ./unit_tests --log_level=message
 ```
 
-# Flujo para subir cambios a la rama
+# Flujo para subir cambios a la rama 
+# Siempre hacer un git pull origin main antes de hacer un commit o para bajar la info
+
 ```bash
+# Para ver cómo va el estado de los cambios
+git status
+
 # para subir todos los cambios a stage
 git add .
 
 # para subir solo un fichero a stage
-git add {mifichero}
+git add {nombreDeFichero}
 
 # para hacer el commit
 git commit -m "mensaje descriptivo"
