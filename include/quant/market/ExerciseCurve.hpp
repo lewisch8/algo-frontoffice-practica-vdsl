@@ -1,6 +1,9 @@
 #include "quant/market/ZeroCouponCurve.hpp"
+#include "quant/daycount/DayCountCalculator.hpp"
+#include "quant/daycount/DayCountFactory.hpp"
 #include <map>
 #include <cmath>
+#include <memory>
 
 namespace Quant::Market {
 

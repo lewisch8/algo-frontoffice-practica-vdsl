@@ -48,7 +48,13 @@ set(TEST_SOURCES
     tests/test_calendar.cpp
     tests/test_schedule.cpp
     src/daycount/DayCountFactory.cpp
-    # Añade aquí más archivos de lógica (.cpp) conforme los crees
+    tests/test_01_daycount.cpp
+    tests/test_02_floating_rates.cpp
+    tests/test_03_cashflows.cpp
+    tests/test_04_discounting.cpp
+    tests/test_05_valuation.cpp
+    src/daycount/DayCountFactory.cpp
+    src/factory/SwapBuilder.cpp
 )
 
 # 2. Creamos el ejecutable de pruebas
