@@ -1,4 +1,3 @@
-// include/quant/calendar/Calendar.hpp
 #ifndef CALENDAR_HPP
 #define CALENDAR_HPP
 

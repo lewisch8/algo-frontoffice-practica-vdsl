@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <boost/date_time/gregorian/gregorian.hpp>
-#include "quant/calendar/Calendar.hpp"
+#include "Calendar.hpp"
 #include "quant/daycount/DayCountCalculator.hpp"
 
 namespace Quant::Time {

@@ -1,5 +1,5 @@
 #include <boost/test/unit_test.hpp>
-#include "quant/calendar/Calendar.hpp"
+#include "quant/time/Calendar.hpp"
 
 using Quant::Calendar::Calendar;
 
