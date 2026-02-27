@@ -3,6 +3,7 @@
 #include "quant/factory/Factory.hpp"
 #include "quant/factory/SwapBuilder.hpp"
 #include "quant/market/MarketCurve.hpp"
+#include "quant/market/Index.hpp"
 
 using namespace Quant;
 
@@ -29,33 +30,35 @@ void print_leg_report(const std::string& title, const std::vector<Instruments::C
 
 int main() {
     try {
-        // 1. Configuración de Mercado (1 de Abril de 2016)
+        // Configuración de Mercado (1 de Abril de 2016)
         boost::gregorian::date ref_date(2016, 4, 1);
         auto my_curve = std::make_shared<Market::MarketCurve>(ref_date);
         
-        // Añades los puntos que quieras dinámicamente
+        // Tasas continuas para proyectar y descontar el futuro
         my_curve->add_rate(boost::gregorian::from_string("2016-10-03"), 0.0474);
         my_curve->add_rate(boost::gregorian::from_string("2017-04-03"), 0.0500);
         my_curve->add_rate(boost::gregorian::from_string("2017-10-02"), 0.0510);
         my_curve->add_rate(boost::gregorian::from_string("2018-04-02"), 0.0520);
 
-        // 2. Definición del Instrumento (Plano de Construcción)
-        Description::LegDescription fixed_p(Description::LegDescription::LegType::Fixed, "2016-04-01", 2, 2, 100e6, 0.05, "", "ACT_360");
-        Description::LegDescription float_r(Description::LegDescription::LegType::Floating, "2016-04-01", 2, 2, 100e6, 0.0, "EURIBOR_6M", "ACT_360");
+        auto euribor_6m = std::make_shared<Market::Index>("EURIBOR_6M", my_curve);
+        euribor_6m->add_fixing(boost::gregorian::from_string("2016-04-01"), 0.048);
+
+        // Definición del Instrumento 
+        Description::LegDescription fixed_p(Description::LegDescription::LegType::Fixed, "2016-04-01", 2, 2, 100e6, 0.05, nullptr, "ACT_360");
+        Description::LegDescription float_r(Description::LegDescription::LegType::Floating, "2016-04-01", 2, 2, 100e6, 0.0, euribor_6m, "ACT_360");
+        
         Description::InstrumentDescription desc(Description::InstrumentDescription::Type::swap, fixed_p, float_r, my_curve);
 
-        // 3. Creación y Valoración
+        // Creación y Valoración
         auto irs = Factory::Factory::instance()(desc);
         auto* swap = dynamic_cast<Instruments::Swap*>(irs.get());
 
         if (swap) {
-            // Cálculo de métricas principales
             double pv_payer = swap->get_payer_leg().price(*my_curve);
             double pv_receiver = swap->get_receiver_leg().price(*my_curve);
             double npv = swap->price();
             double par_rate = swap->calculate_par_rate();
 
-            // --- BLOQUE DE RESULTADOS TOTALES ---
             std::cout << std::fixed << std::setprecision(2);
             std::cout << "====================================================" << std::endl;
             std::cout << "       INFORME DE VALORACIÓN: SWAP 100M EUR         " << std::endl;
@@ -67,7 +70,6 @@ int main() {
             std::cout << "TASA SWAP (PAR RATE):        " << std::setw(15) << par_rate * 100.0 << " %" << std::endl;
             std::cout << "====================================================" << std::endl;
 
-            // --- BLOQUE DE FLUJOS DETALLADOS ---
             print_leg_report("DETALLE PATA FIJA (PAGADORA)", swap->get_payer_leg().get_cashflows(*my_curve));
             print_leg_report("DETALLE PATA VARIABLE (RECEPTORA)", swap->get_receiver_leg().get_cashflows(*my_curve));
         }

@@ -19,7 +19,6 @@ BOOST_AUTO_TEST_CASE(TestScheduleFullFlow)
     const auto& dates = schedule.get_dates();
     const auto& fractions = schedule.get_year_fractions();
 
-    // Mensaje de cabecera en el log
     BOOST_TEST_MESSAGE("--- Auditando Schedule: Start " << start << " ---");
 
     for (size_t i = 0; i < dates.size(); ++i) {

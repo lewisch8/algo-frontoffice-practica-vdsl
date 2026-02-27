@@ -12,8 +12,9 @@ public:
         THIRTY_360
     };
 
-    // Solo declaramos la función, no la implementamos aquí
     static std::unique_ptr<DayCountCalculator> create(Convention type);
+
+    static Convention get_convention(const std::string& dc_str);
 };
 
 #endif

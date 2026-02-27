@@ -11,7 +11,6 @@ namespace Quant::Time {
 
 class Schedule {
 private:
-    // Estado interno del objeto
     boost::gregorian::date start_date_;
     std::vector<boost::gregorian::date> dates_;
     std::vector<double> year_fractions_;
@@ -31,9 +30,7 @@ public:
         calculate_fractions(calc);
     }
 
-    /**
-     * @brief Genera las fechas del cronograma
-     */
+    // Genera las fechas del cronograma
     void generate(const std::string& start_date_str, int years_total, int frequency) {
         start_date_ = boost::gregorian::from_string(start_date_str);
         dates_.clear();
@@ -48,9 +45,7 @@ public:
         }
     }
 
-    /**
-     * @brief Calcula las fracciones de año usando las fechas internas
-     */
+    // Calcula las fracciones de año usando las fechas internas
     void calculate_fractions(DayCountCalculator& calculator) {
         year_fractions_.clear();
         year_fractions_.reserve(dates_.size());

@@ -12,21 +12,17 @@ namespace Quant::Factory {
 
 class Factory {
 public:
-    // Firma del constructor especializado
     typedef std::function<std::unique_ptr<Instruments::Instrument>(const Description::InstrumentDescription&)> Builder;
 
-    // Singleton: instancia única
     static Factory& instance() {
         static Factory factory;
         return factory;
     }
 
-    // Registro de nuevos constructores (ej. SwapBuilder)
     void register_constructor(Description::InstrumentDescription::Type id, const Builder& builder) {
         buildersMap_.insert(std::make_pair(id, builder));
     }
 
-    // El método principal: crea instrumentos a partir de una descripción
     std::unique_ptr<Instruments::Instrument> operator()(const Description::InstrumentDescription& description) const {
         auto it = buildersMap_.find(description.type);
         if (it == buildersMap_.end()) {

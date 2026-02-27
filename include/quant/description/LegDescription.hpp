@@ -2,11 +2,12 @@
 #define LEG_DESCRIPTION_HPP
 
 #include <string>
+#include <memory>
+#include "../market/Index.hpp" // Incluimos el Index
 
 namespace Quant::Description {
 
 struct LegDescription {
-    // Usamos 'enum class' para mayor seguridad de tipos
     enum class LegType { Fixed, Floating };
 
     LegType type;
@@ -14,36 +15,27 @@ struct LegDescription {
     int years;
     int frequency;
     double notional;
-    double rate_or_spread;  // Si es Fixed: la tasa. Si es Floating: el spread.
-    std::string index_name; // Solo se usa si es Floating (ej. "LIBOR_6M")
-    std::string day_count;  // Para tu Factory: "ACT_360", "30_360", etc.
+    double rate_or_spread;  
+    
+    std::shared_ptr<Market::Index> index_obj; 
+    
+    std::string day_count;  
 
-    // Constructor completo cumpliendo effc++ (inicialización en lista)
+    // Constructor
     LegDescription(LegType t, std::string start, int y, int freq, 
-                   double notional_val, double rate, std::string idx, std::string dc)
-        : type(t), 
-          start_date(std::move(start)), 
-          years(y), 
-          frequency(freq),
-          notional(notional_val), 
-          rate_or_spread(rate), 
-          index_name(std::move(idx)), 
-          day_count(std::move(dc)) 
+                   double notional_val, double rate, 
+                   std::shared_ptr<Market::Index> idx, std::string dc)
+        : type(t), start_date(std::move(start)), years(y), frequency(freq),
+          notional(notional_val), rate_or_spread(rate), 
+          index_obj(std::move(idx)), day_count(std::move(dc)) 
     {}
 
-    // Constructor por defecto (necesario para cuando se anida en otra clase)
+    // Constructor por defecto
     LegDescription() 
-        : type(LegType::Fixed), 
-          start_date(""), 
-          years(0), 
-          frequency(1), 
-          notional(0.0), 
-          rate_or_spread(0.0), 
-          index_name(""), 
-          day_count("") 
+        : type(LegType::Fixed), start_date(""), years(0), frequency(1), 
+          notional(0.0), rate_or_spread(0.0), index_obj(nullptr), day_count("") 
     {}
 };
 
 } // namespace Quant::Description
-
 #endif

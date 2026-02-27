@@ -16,7 +16,6 @@ public:
     FloatingLeg(Time::Schedule s, double notional, std::shared_ptr<Market::Index> idx, double spread = 0.0)
         : Leg(std::move(s), notional), index_(std::move(idx)), spread_(spread) {}
 
-    // Unificado: price() ahora también proyecta Forwards
     double price(const Market::ZeroCouponCurve& curve) const override {
         double pv = 0.0;
         const auto& dates = schedule_.get_dates();

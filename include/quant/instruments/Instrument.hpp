@@ -8,7 +8,6 @@ namespace Quant::Instruments {
 
 class Instrument {
 protected:
-    // Todo instrumento necesita una curva para descontar flujos
     std::shared_ptr<Market::ZeroCouponCurve> curve_;
 
 public:
@@ -17,7 +16,6 @@ public:
 
     virtual ~Instrument() = default;
 
-    // El método central de tu arquitectura
     virtual double price() const = 0;
 };
 

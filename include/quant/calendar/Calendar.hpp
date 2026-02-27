@@ -21,10 +21,8 @@ namespace Quant::Calendar {
         }
 
         static boost::gregorian::date first_business_day(const std::string& date_str) {
-        // Convertimos el string a un objeto date de Boost
         boost::gregorian::date d = boost::gregorian::from_string(date_str);
         
-        // Reutilizamos la lógica anterior pasando el año y mes extraídos
         return first_business_day(d.year(), d.month());
     }
 

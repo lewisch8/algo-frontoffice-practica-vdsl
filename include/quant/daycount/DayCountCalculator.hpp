@@ -8,7 +8,6 @@ class DayCountCalculator {
 public:
     virtual ~DayCountCalculator() = default;
 
-    // Declaramos ambas como virtuales puras
     virtual double operator()(const std::string& start, const std::string& end) const = 0;
     virtual double operator()(const boost::gregorian::date& start, const boost::gregorian::date& end) const = 0;
 };

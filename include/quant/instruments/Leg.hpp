@@ -18,7 +18,7 @@ struct CashFlow {
 
 class Leg {
 protected:
-    Time::Schedule schedule_; // Integra tu lógica de fechas previa
+    Time::Schedule schedule_;
     double notional_;
 
 public:
@@ -30,14 +30,10 @@ public:
     // Cada pata calcula su propio valor presente
     virtual double price(const Market::ZeroCouponCurve& curve) const = 0;
 
-    /**
-     * @brief Permite que el Swap consulte el cronograma de la pata.
-     */
+    // Permite que el Swap consulte el cronograma de la pata
     const Time::Schedule& get_schedule() const { return schedule_; }
 
-    /**
-     * @brief Permite que el Swap consulte el monto principal.
-     */
+    // Permite que el Swap consulte el monto principal
     double get_notional() const { return notional_; }
 
     virtual std::vector<CashFlow> get_cashflows(const Market::ZeroCouponCurve& curve) const = 0;

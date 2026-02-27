@@ -16,3 +16,9 @@ std::unique_ptr<DayCountCalculator> DayCountFactory::create(Convention type) {
             throw std::invalid_argument("Convención no reconocida");
     }
 }
+
+ DayCountFactory::Convention  DayCountFactory::get_convention(const std::string& dc_str) {
+    if (dc_str == "ACT_360") return Convention::ACT_360;
+    if (dc_str == "30_360") return Convention::THIRTY_360;
+    throw std::invalid_argument("Convención de días no reconocida: " + dc_str);
+}

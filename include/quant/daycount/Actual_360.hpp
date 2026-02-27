@@ -7,12 +7,12 @@
 namespace Quant::Time {
 class Actual_360 : public DayCountCalculator {
 public:
-    // Implementación para strings (usa la de fechas internamente)
+    // Implementación para strings
     double operator()(const std::string& start, const std::string& end) const override {
         return operator()(boost::gregorian::from_string(start), boost::gregorian::from_string(end));
     }
 
-    // Implementación para fechas (la que pedía tu ExerciseCurve)
+    // Implementación para fechas
     double operator()(const boost::gregorian::date& start, const boost::gregorian::date& end) const override {
         return static_cast<double>((end - start).days()) / 360.0;
     }

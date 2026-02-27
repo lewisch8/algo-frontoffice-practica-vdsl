@@ -22,7 +22,6 @@ public:
           dcf_calc_(DayCountFactory::create(DayCountFactory::Convention::ACT_360)) 
     {}
 
-    // Método para que el Bootstrapper o el usuario añadan puntos
     void add_rate(const boost::gregorian::date& d, double r) {
         rates_[d] = r;
     }
@@ -38,7 +37,7 @@ public:
 
         double r = it->second;
         double t = get_dcf(ref_date_, d);
-        return std::exp(-r * t); // Capitalización continua como en tu ExerciseCurve
+        return std::exp(-r * t); // Capitalización continua
     }
 
     double get_dcf(const boost::gregorian::date& d1, const boost::gregorian::date& d2) const override {

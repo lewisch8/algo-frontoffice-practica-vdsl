@@ -6,7 +6,7 @@
 using Quant::Time::Actual_360;
 using Quant::Time::Thirty_360;
 
-// Usamos un margen de error para comparar doubles (tolerancia)
+// Usamos un margen de error para comparar doubles
 const double TOLERANCIA = 0.000001;
 
 BOOST_AUTO_TEST_SUITE(DayCountCalculators)
