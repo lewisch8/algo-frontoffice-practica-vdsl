@@ -40,7 +40,7 @@ int main() {
         my_curve->add_rate(boost::gregorian::from_string("2017-10-02"), 0.0510);
         my_curve->add_rate(boost::gregorian::from_string("2018-04-02"), 0.0520);
 
-        auto euribor_6m = std::make_shared<Market::Index>("EURIBOR_6M", my_curve);
+        auto euribor_6m = std::make_shared<Market::Index>("EURIBOR_6M", my_curve,2);
         euribor_6m->add_fixing(boost::gregorian::from_string("2016-04-01"), 0.048);
 
         // Definición del Instrumento 

@@ -14,10 +14,11 @@ protected:
     std::string name_;
     std::shared_ptr<ZeroCouponCurve> curve_;
     std::map<boost::gregorian::date, double> fixings_;
+    int frequency_;
 
 public:
-    Index(std::string name, std::shared_ptr<ZeroCouponCurve> c) 
-        : name_(std::move(name)), curve_(std::move(c)), fixings_() {}
+    Index(std::string name, std::shared_ptr<ZeroCouponCurve> c, int frequency = 2) 
+        : name_(std::move(name)), curve_(std::move(c)), fixings_(), frequency_(frequency) {}
 
     virtual ~Index() = default;
 
@@ -40,7 +41,7 @@ public:
         double zc2 = curve_->get_zc(d2);
         
         double rc = std::log(zc1 / zc2) / yf; 
-        double m = 2.0; 
+        double m = static_cast<double>(frequency_);
         return m * (std::exp(rc / m) - 1.0);
     }
 };
