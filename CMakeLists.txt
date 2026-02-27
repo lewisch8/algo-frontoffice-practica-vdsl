@@ -25,7 +25,8 @@ find_package(Boost 1.83 REQUIRED CONFIG COMPONENTS system date_time unit_test_fr
 set (SOURCES
     apps/main.cpp
     src/daycount/DayCountFactory.cpp
-    src/factory/Swapbuilder.cpp)
+    src/factory/Swapbuilder.cpp
+    src/factory/BondBuilder.cpp)
 
 # Definir test de Boost por ahora
 add_executable(proyecto ${SOURCES})
@@ -47,14 +48,15 @@ set(TEST_SOURCES
     tests/test_day.cpp
     tests/test_calendar.cpp
     tests/test_schedule.cpp
-    src/daycount/DayCountFactory.cpp
     tests/test_01_daycount.cpp
     tests/test_02_floating_rates.cpp
     tests/test_03_cashflows.cpp
     tests/test_04_discounting.cpp
     tests/test_05_valuation.cpp
+    tests/test_bond.cpp
     src/daycount/DayCountFactory.cpp
     src/factory/SwapBuilder.cpp
+    src/factory/BondBuilder.cpp
 )
 
 # 2. Creamos el ejecutable de pruebas
