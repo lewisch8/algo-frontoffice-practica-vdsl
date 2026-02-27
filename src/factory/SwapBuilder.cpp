@@ -1,5 +1,5 @@
 #include "../../include/quant/factory/SwapBuilder.hpp"
-#include "../../include/quant/market/ExerciseCurve.hpp"
+#include "../../include/quant/market/MarketCurve.hpp"
 #include "../../include/quant/daycount/DayCountFactory.hpp"
 #include "../../include/quant/instruments/FixedLeg.hpp"
 #include "../../include/quant/instruments/FloatingLeg.hpp"
@@ -24,9 +24,7 @@ public:
 
 std::unique_ptr<Instruments::Instrument> SwapBuilder::build(const Description::InstrumentDescription& desc) {
     // 1. Curva de Mercado compartida
-    auto curve = std::make_shared<Market::ExerciseCurve>(
-        boost::gregorian::from_string("2016-04-01")
-    );
+    auto curve = desc.discount_curve;
 
     // --- BLOQUE 1: CONSTRUCCIÓN DE LA PATA PAGADORA (PAYER) ---
     Time::Schedule payer_sched;
