@@ -13,6 +13,8 @@ public:
     FixedLeg(Time::Schedule s, double notional, double rate)
         : Leg(std::move(s), notional), fixed_rate_(rate) {}
 
+    double get_fixed_rate() const { return fixed_rate_; }
+
     double price(const Market::ZeroCouponCurve& curve) const override {
         double pv = 0.0;
         const auto& dates = schedule_.get_dates();

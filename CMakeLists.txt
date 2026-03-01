@@ -54,6 +54,8 @@ set(TEST_SOURCES
     tests/test_04_discounting.cpp
     tests/test_05_valuation.cpp
     tests/test_bond.cpp
+    tests/test_deposit_curve.cpp
+    tests/test_swap_curve.cpp
     src/daycount/DayCountFactory.cpp
     src/factory/SwapBuilder.cpp
     src/factory/BondBuilder.cpp
