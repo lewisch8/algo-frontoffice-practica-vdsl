@@ -21,7 +21,7 @@ public:
           year_fractions_() 
     {}
 
-    Schedule(const std::string& start_date_str, int years_total, int frequency, DayCountCalculator& calc)
+    Schedule(const std::string& start_date_str, double years_total, int frequency, DayCountCalculator& calc)
         : start_date_(boost::gregorian::not_a_date_time), 
           dates_(), 
           year_fractions_() 
@@ -31,12 +31,12 @@ public:
     }
 
     // Genera las fechas del cronograma
-    void generate(const std::string& start_date_str, int years_total, int frequency) {
+    void generate(const std::string& start_date_str, double years_total, int frequency) {
         start_date_ = boost::gregorian::from_string(start_date_str);
         dates_.clear();
         
         int months_step = 12 / frequency;
-        int total_periods = years_total * frequency;
+        int total_periods = static_cast<int>(years_total * frequency);
 
         for (int i = 1; i <= total_periods; ++i) {
             auto theoretical = start_date_ + boost::gregorian::months(i * months_step);
