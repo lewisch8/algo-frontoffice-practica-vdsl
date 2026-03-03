@@ -11,13 +11,19 @@ std::unique_ptr<Instruments::Instrument> BondBuilder::build(const Description::I
         throw std::runtime_error("Error: La descripción del bono no contiene una curva válida.");
     }
 
-    const auto& leg_desc = desc.receiver;
+    // Validación de seguridad
+    if (desc.legs.empty()) {
+        throw std::runtime_error("Error: La descripción del bono no contiene ninguna pata.");
+    }
+
+    // Se extrae la pata genéricamente desde la posición 0
+    const auto& leg_desc = desc.legs[0]; 
 
     // Generacion del cronograma
     Time::Schedule sched;
     sched.generate(leg_desc.start_date, leg_desc.years, leg_desc.frequency);
     
-    auto convention = DayCountFactory::get_convention(desc.receiver.day_count);
+    auto convention = DayCountFactory::get_convention(leg_desc.day_count);
     auto dc = DayCountFactory::create(convention);
     sched.calculate_fractions(*dc);
 
