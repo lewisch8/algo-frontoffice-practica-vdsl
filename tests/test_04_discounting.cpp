@@ -6,8 +6,8 @@
 BOOST_AUTO_TEST_CASE(test_discount_factors) {
     using namespace Quant;
     boost::gregorian::date ref_date(2016, 4, 1);
+    BOOST_TEST_MESSAGE("Fecha de referencia: " << ref_date);
     
-    // MarketCurve dinámica
     auto curva = std::make_shared<Market::MarketCurve>(ref_date);
     
     curva->add_rate(boost::gregorian::from_string("2016-10-03"), 0.0474);
@@ -15,7 +15,7 @@ BOOST_AUTO_TEST_CASE(test_discount_factors) {
     
     auto calc = DayCountFactory::create(DayCountFactory::Convention::ACT_360);
     
-    // Cronograma de 1 año, semestral (2 cupones)
+    // Cronograma de 1 año, pago semestral (2 cupones)
     Time::Schedule sched("2016-04-01", 1, 2, *calc);
     Instruments::FixedLeg leg(std::move(sched), 100e6, 0.05);
     
@@ -24,6 +24,11 @@ BOOST_AUTO_TEST_CASE(test_discount_factors) {
     // Verificación de la integridad del descuento
     for (const auto& cf : flujos) {
         // PV debe ser igual a Amount * Factor de Descuento (ZC)
+        BOOST_TEST_MESSAGE("  - PV esperado (amount * discount): " << cf.amount * cf.discount << " EUR");
+        BOOST_TEST_MESSAGE("  - Diferencia PV: " << (cf.pv - cf.amount * cf.discount) << " EUR");
+        
+        // Verificar que el factor de descuento es menor que 1
+        BOOST_TEST_MESSAGE("  - ¿Factor < 1.0?: " << (cf.discount < 1.0 ? "SÍ" : "NO"));
         BOOST_CHECK_CLOSE(cf.pv, cf.amount * cf.discount, 0.000001);
         
         // Con tasas positivas, el factor de descuento debe ser menor a 1.0
