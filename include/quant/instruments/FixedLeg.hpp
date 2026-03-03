@@ -14,6 +14,7 @@ public:
         : Leg(std::move(s), notional), fixed_rate_(rate) {}
 
     double get_fixed_rate() const { return fixed_rate_; }
+    LegType get_type() const override { return LegType::Fixed; }
 
     double price(const Market::ZeroCouponCurve& curve) const override {
         double pv = 0.0;

@@ -23,7 +23,7 @@ namespace Quant::Instruments {
         {
             std::vector<DiscountFactor> curve;
 
-            // 1. Bootstrapping del Depósito
+            // Bootstrapping del Depósito
             double t_dep = deposit.getMaturity(); 
             double r_dep = deposit.getRate();
             double z_dep = 1.0 / (1.0 + r_dep * t_dep);
@@ -34,22 +34,14 @@ namespace Quant::Instruments {
             double sum_Z_dt = z_dep * t_dep; 
             double current_time = t_dep;
 
-            // 2. Bootstrapping de los Swaps
+            // Bootstrapping de los Swaps
             for (const auto& swap_ptr : swaps) {
                 const Swap& swap = *swap_ptr;
                 
-                // Extraer la pata fija usando dynamic_cast
-                const FixedLeg* fixed_leg = dynamic_cast<const FixedLeg*>(&swap.get_payer_leg());
-                if (!fixed_leg) {
-                    fixed_leg = dynamic_cast<const FixedLeg*>(&swap.get_receiver_leg());
-                }
-                if (!fixed_leg) {
-                    throw std::runtime_error("El Swap no tiene FixedLeg para hacer Bootstrapping");
-                }
+                const FixedLeg& fixed_leg = swap.get_fixed_leg();
 
-                // Obtener los datos del Schedule y la Tasa directamente del Instrumento
-                double r_swap = fixed_leg->get_fixed_rate(); 
-                const auto& yfs = fixed_leg->get_schedule().get_year_fractions();
+                double r_swap = fixed_leg.get_fixed_rate(); 
+                const auto& yfs = fixed_leg.get_schedule().get_year_fractions();
                 
                 double dt_N = yfs.back();
                 current_time += dt_N;

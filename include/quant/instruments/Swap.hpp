@@ -3,6 +3,7 @@
 
 #include "Instrument.hpp"
 #include "Leg.hpp"
+#include "FixedLeg.hpp"
 
 namespace Quant::Instruments {
 
@@ -42,6 +43,16 @@ public:
         // Tasa Par = PV Variable / (Nocional * Annuity)
         // Asumiendo que el nocional es el mismo para ambas patas
         return pv_floating / (payer_leg_->get_notional() * annuity);
+    }
+
+    const FixedLeg& get_fixed_leg() const {
+        if (payer_leg_->get_type() == LegType::Fixed) {
+            return static_cast<const FixedLeg&>(*payer_leg_);
+        } 
+        if (receiver_leg_->get_type() == LegType::Fixed) {
+            return static_cast<const FixedLeg&>(*receiver_leg_);
+        }
+        throw std::runtime_error("El Swap no tiene una pata fija (FixedLeg)");
     }
 };
 

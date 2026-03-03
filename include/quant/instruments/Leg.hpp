@@ -7,6 +7,11 @@
 
 namespace Quant::Instruments {
 
+enum class LegType {
+        Fixed,
+        Floating
+};
+
 struct CashFlow {
     boost::gregorian::date date;
     double year_fraction;
@@ -26,6 +31,7 @@ public:
         : schedule_(std::move(s)), notional_(notional) {}
 
     virtual ~Leg() = default;
+    virtual LegType get_type() const = 0;
 
     // Cada pata calcula su propio valor presente
     virtual double price(const Market::ZeroCouponCurve& curve) const = 0;
