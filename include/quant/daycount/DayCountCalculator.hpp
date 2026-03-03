@@ -4,6 +4,7 @@
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <string>
 
+namespace Quant::Time {
 class DayCountCalculator {
 public:
     virtual ~DayCountCalculator() = default;
@@ -11,5 +12,5 @@ public:
     virtual double operator()(const std::string& start, const std::string& end) const = 0;
     virtual double operator()(const boost::gregorian::date& start, const boost::gregorian::date& end) const = 0;
 };
-
+}
 #endif

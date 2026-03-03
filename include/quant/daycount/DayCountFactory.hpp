@@ -5,6 +5,8 @@
 #include <string>
 #include "DayCountCalculator.hpp"
 
+using namespace Quant::Time;
+
 class DayCountFactory {
 public:
     enum class Convention {
