@@ -29,11 +29,12 @@ public:
     }
 
     double calculate_par_rate() const {
-        double pv_floating = receiver_leg_->price(*curve_);
+        const auto& fixed_leg = get_fixed_leg();
+        double pv_floating = fixed_leg.price(*curve_);
         
         // Necesitamos la suma de (alpha * ZC) de la pata fija
-        const auto& dates = payer_leg_->get_schedule().get_dates();
-        const auto& yfs = payer_leg_->get_schedule().get_year_fractions();
+        const auto& dates = fixed_leg.get_schedule().get_dates();
+        const auto& yfs = fixed_leg.get_schedule().get_year_fractions();
         
         double annuity = 0.0;
         for (size_t i = 0; i < dates.size(); ++i) {

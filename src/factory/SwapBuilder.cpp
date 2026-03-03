@@ -11,8 +11,8 @@ std::unique_ptr<Instruments::Instrument> SwapBuilder::build(const Description::I
     // --- PATA PAGADORA ---
     Time::Schedule payer_sched;
     payer_sched.generate(desc.payer.start_date, desc.payer.years, desc.payer.frequency);
-    auto convention = DayCountFactory::get_convention(desc.payer.day_count);
-    auto dc_payer = DayCountFactory::create(convention);
+    auto convention_payer = DayCountFactory::get_convention(desc.payer.day_count);
+    auto dc_payer = DayCountFactory::create(convention_payer);
     payer_sched.calculate_fractions(*dc_payer);
 
     std::unique_ptr<Instruments::Leg> payer_leg;
@@ -25,7 +25,8 @@ std::unique_ptr<Instruments::Instrument> SwapBuilder::build(const Description::I
     // --- PATA RECEPTORA ---
     Time::Schedule receiver_sched;
     receiver_sched.generate(desc.receiver.start_date, desc.receiver.years, desc.receiver.frequency);
-    auto dc_receiver = DayCountFactory::create(convention);
+    auto convention_receiver = DayCountFactory::get_convention(desc.receiver.day_count);
+    auto dc_receiver = DayCountFactory::create(convention_receiver);
     receiver_sched.calculate_fractions(*dc_receiver);
 
     std::unique_ptr<Instruments::Leg> receiver_leg;
