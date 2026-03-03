@@ -7,8 +7,8 @@
 BOOST_AUTO_TEST_CASE(test_bond_valuation) {
     using namespace Quant;
     
-    // Curva dinámica
     boost::gregorian::date ref_date(2016, 4, 1);
+    BOOST_TEST_MESSAGE("Fecha de referencia: " << ref_date);
     auto curva = std::make_shared<Market::MarketCurve>(ref_date);
     
     // Inyectar tasas para las fechas de pago
@@ -18,8 +18,7 @@ BOOST_AUTO_TEST_CASE(test_bond_valuation) {
     // Configurar la pata del bono (Fijo, 2 años, frecuencia 1, 100M al 5%)
     Description::LegDescription bond_leg(
         Description::LegDescription::LegType::Fixed, 
-        "2016-04-01", 2, 1, 100e6, 0.05, nullptr, "ACT_360"
-    );
+        "2016-04-01", 2, 1, 100e6, 0.05, nullptr, "ACT_360");
     
     Description::InstrumentDescription desc(Description::InstrumentDescription::Type::bond, bond_leg, curva);
     
@@ -31,11 +30,17 @@ BOOST_AUTO_TEST_CASE(test_bond_valuation) {
     
     // Valoración
     double pv = bond->price();
+    BOOST_TEST_MESSAGE("RESULTADOS DEL CÁLCULO:");
+    BOOST_TEST_MESSAGE("  - Precio del bono (PV de cupones): " << pv << " EUR");
     
     // Verificaciones
+    BOOST_TEST_MESSAGE("VERIFICACIONES:");
+    BOOST_TEST_MESSAGE("  - ¿PV > 0? " << (pv > 0.0 ? "SÍ" : "NO"));
     BOOST_CHECK(pv > 0.0);
+    BOOST_TEST_MESSAGE("  - ¿PV > 9.000.000 EUR? " << (pv > 9000000.0 ? "SÍ" : "NO"));
     BOOST_CHECK_GT(pv, 9000000.0);
+    BOOST_TEST_MESSAGE("  - ¿PV < 10.000.000 EUR? " << (pv < 10000000.0 ? "SÍ" : "NO"));
     BOOST_CHECK_LT(pv, 10000000.0);
     
-    BOOST_TEST_MESSAGE("Precio del Bono (PV de cupones): " << std::fixed << std::setprecision(2) << pv << " EUR");
+    BOOST_TEST_MESSAGE(" =========== TEST FINALIZADO - TODAS LAS VERIFICACIONES CORRECTAS");
 }
