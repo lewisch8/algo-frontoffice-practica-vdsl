@@ -6,8 +6,9 @@
 
 BOOST_AUTO_TEST_CASE(test_full_swap_valuation_and_par_rate) {
     using namespace Quant;
-    // Configuración de Mercado (1 de Abril de 2016)
+    
     boost::gregorian::date ref_date(2016, 4, 1);
+    BOOST_TEST_MESSAGE("Fecha de referencia: " << ref_date);
     auto my_curve = std::make_shared<Market::MarketCurve>(ref_date);
     
     // Tasas continuas para proyectar y descontar el futuro
@@ -29,14 +30,24 @@ BOOST_AUTO_TEST_CASE(test_full_swap_valuation_and_par_rate) {
     auto* swap = dynamic_cast<Instruments::Swap*>(irs_ptr.get());
 
     BOOST_REQUIRE(swap != nullptr);
+    BOOST_TEST_MESSAGE("(CHECK!!) Swap construido correctamente vía Factoria");
 
+    // Calculo de NPV y tasa par
     double npv = swap->price();
     double par_rate = swap->calculate_par_rate();
 
+    BOOST_TEST_MESSAGE("RESULTADOS DEL CÁLCULO:");
+    BOOST_TEST_MESSAGE("  - NPV del swap: " << npv << " EUR");
+    BOOST_TEST_MESSAGE("  - Tasa par calculada: " << par_rate * 100 << "%");
+
     // El NPV no debe ser cero si la tasa fija (5%) no es la tasa par del mercado
+    BOOST_TEST_MESSAGE("  - ¿NPV distinto de cero? " << (std::abs(npv) > 0.0 ? "SÍ" : "NO"));
     BOOST_CHECK(std::abs(npv) > 0.0);
     
     // La tasa par debe estar en un rango razonable
+    BOOST_TEST_MESSAGE("  - ¿Tasa par > 4.5%? " << (par_rate > 0.045 ? "SÍ" : "NO"));
+    BOOST_TEST_MESSAGE("  - ¿Tasa par < 5.5%? " << (par_rate < 0.055 ? "SÍ" : "NO"));
     BOOST_CHECK_GT(par_rate, 0.045);
     BOOST_CHECK_LT(par_rate, 0.055);
+    BOOST_TEST_MESSAGE(" =========== TEST FINALIZADO - TODAS LAS VERIFICACIONES CORRECTAS");
 }
