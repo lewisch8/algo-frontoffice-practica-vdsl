@@ -4,6 +4,7 @@
 #include "Instrument.hpp"
 #include "Leg.hpp"
 #include "FixedLeg.hpp"
+#include "FloatingLeg.hpp"
 
 namespace Quant::Instruments {
 
@@ -30,7 +31,8 @@ public:
 
     double calculate_par_rate() const {
         const auto& fixed_leg = get_fixed_leg();
-        double pv_floating = fixed_leg.price(*curve_);
+        const auto& floating_leg = get_floating_leg();
+        double pv_floating = floating_leg.price(*curve_);
         
         // Necesitamos la suma de (alpha * ZC) de la pata fija
         const auto& dates = fixed_leg.get_schedule().get_dates();
@@ -52,6 +54,16 @@ public:
         } 
         if (receiver_leg_->get_type() == LegType::Fixed) {
             return static_cast<const FixedLeg&>(*receiver_leg_);
+        }
+        throw std::runtime_error("El Swap no tiene una pata fija (FixedLeg)");
+    }
+
+    const FloatingLeg& get_floating_leg() const {
+        if (payer_leg_->get_type() == LegType::Floating) {
+            return static_cast<const FloatingLeg&>(*payer_leg_);
+        } 
+        if (receiver_leg_->get_type() == LegType::Floating) {
+            return static_cast<const FloatingLeg&>(*receiver_leg_);
         }
         throw std::runtime_error("El Swap no tiene una pata fija (FixedLeg)");
     }
