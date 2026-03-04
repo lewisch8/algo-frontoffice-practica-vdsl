@@ -45,7 +45,7 @@ public:
 
         // Tasa Par = PV Variable / (Nocional * Annuity)
         // Asumiendo que el nocional es el mismo para ambas patas
-        return pv_floating / (payer_leg_->get_notional() * annuity);
+        return pv_floating / (fixed_leg.get_notional() * annuity);
     }
 
     const FixedLeg& get_fixed_leg() const {
@@ -65,7 +65,7 @@ public:
         if (receiver_leg_->get_type() == LegType::Floating) {
             return static_cast<const FloatingLeg&>(*receiver_leg_);
         }
-        throw std::runtime_error("El Swap no tiene una pata fija (FixedLeg)");
+        throw std::runtime_error("El Swap no tiene una pata flotante (FloatingLeg)");
     }
 };
 

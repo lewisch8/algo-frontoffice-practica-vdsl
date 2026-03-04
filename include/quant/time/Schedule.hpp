@@ -31,6 +31,7 @@ public:
     }
 
     // Genera las fechas del cronograma
+    // Genera las fechas del cronograma
     void generate(const std::string& start_date_str, double years_total, int frequency) {
         start_date_ = boost::gregorian::from_string(start_date_str);
         dates_.clear();
@@ -39,8 +40,12 @@ public:
         int total_periods = static_cast<int>(years_total * frequency);
 
         for (int i = 1; i <= total_periods; ++i) {
+            // 1. Calculamos la fecha teórica exacta (ej: 15 de abril -> 15 de octubre)
             auto theoretical = start_date_ + boost::gregorian::months(i * months_step);
-            auto adjusted = Calendar::Calendar::first_business_day(theoretical.year(), theoretical.month());
+            
+            // 2. Ajustamos respetando el fin de semana usando Modified Following
+            auto adjusted = Calendar::Calendar::adjust_modified_following(theoretical);
+            
             dates_.push_back(adjusted);
         }
     }

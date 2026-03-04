@@ -47,27 +47,45 @@ namespace Quant {
         inline const std::string THIRTY_360 = "THIRTY_360";
     }
 
-    // Alias genérico para simplificar el uso de fechas al usuario
     using Date = boost::gregorian::date;
 
-    // Utilidad: Crear fechas a partir de enteros (Año, Mes, Día)
+    /**
+     * @brief Crea un objeto de fecha a partir de componentes numéricos.
+     * @param year Año (ej. 2024).
+     * @param month Mes (1-12).
+     * @param day Día del mes (1-31).
+     * @return Objeto Date (boost::gregorian::date).
+     */
     inline Date make_date(unsigned short year, unsigned short month, unsigned short day) {
         return Date(year, month, day);
     }
 
-    // Utilidad: Crear fechas a partir de un string (ej. "2016-04-01")
+    /**
+     * @brief Crea un objeto de fecha a partir de una cadena de texto.
+     * @param date_str Fecha en formato ISO (ej. "2024-12-31").
+     * @return Objeto Date parseado.
+     */
     inline Date make_date(const std::string& date_str) {
         return boost::gregorian::from_string(date_str);
     }
     
-    // Utilidad: Convertir la fecha a formato string para imprimir
+    /**
+     * @brief Convierte una fecha a su representación en cadena de texto.
+     * @param d Objeto fecha a convertir.
+     * @return String en formato extendido ISO (YYYY-MM-DD).
+     */
     inline std::string to_string(const Date& d) {
         return boost::gregorian::to_iso_extended_string(d);
     }
 
-    // --- 1. Abstracción de Mercado (Curvas e Índices) ---
+    // --- Abstracción de Mercado (Curvas e Índices) ---
 
-    // Crea una curva a partir de una lista de pares {fecha, tasa}
+    /**
+     * @brief Construye una curva de mercado a partir de una serie de nodos de tipos de interés.
+     * @param ref_date_str Fecha de referencia/valor de la curva.
+     * @param rates Vector de pares {fecha_vencimiento, tasa_tnto_por_uno}.
+     * @return Puntero compartido a la curva de mercado generada.
+     */
     inline std::shared_ptr<Market::MarketCurve> make_curve(
         const std::string& ref_date_str,
         const std::vector<std::pair<std::string, double>>& rates)
@@ -79,22 +97,40 @@ namespace Quant {
         return curve;
     }
 
-    // Crea un índice y le añade un fixing inicial
+    /**
+     * @brief Inicializa un índice financiero y registra su primer fixing.
+     * @param {string} nombre - Identificador único del índice (ej. "EURIBOR").
+     * @param {Curve} curva - Objeto de curva de tipos para la valoración.
+     * @param {int} frecuencia - Pagos por año (ej. 2 para semestral).
+     * @param {string} fixingDate - Fecha del fixing en formato ISO (YYYY-MM-DD).
+     * @param {double} fixingRate - Valor porcentual del ratio inicial.
+     * @return Puntero compartido al índice configurado.
+     */
     inline std::shared_ptr<Market::Index> make_index(
         const std::string& name,
         std::shared_ptr<Market::MarketCurve> curve,
-        int tenor_months,
+        int frequency,
         const std::string& fixing_date_str,
         double fixing_rate)
     {
-        auto index = std::make_shared<Market::Index>(name, curve, tenor_months);
+        auto index = std::make_shared<Market::Index>(name, curve, frequency);
         index->add_fixing(make_date(fixing_date_str), fixing_rate);
         return index;
     }
 
 
-    // --- 2. Abstracción de Patas (Legs) ---
+    // --- Abstracción de Patas ---
 
+    /**
+     * @brief Define la estructura de una pata de flujos fijos.
+     * @param start_date Fecha de inicio de devengo.
+     * @param payment_frequency Número de pagos anuales.
+     * @param tenor_years Plazo de la pata en años.
+     * @param notional Capital nominal del contrato.
+     * @param fixed_rate Cupón fijo anual (en tanto por uno).
+     * @param daycount Convención de conteo de días (por defecto ACT/360).
+     * @return Objeto descriptivo de la pata fija.
+     */
     inline Description::LegDescription make_fixed_leg(
         const std::string& start_date, int payment_frequency, int tenor_years, 
         double notional, double fixed_rate, const std::string& daycount = Conventions::ACT_360) 
@@ -104,6 +140,16 @@ namespace Quant {
             start_date, payment_frequency, tenor_years, notional, fixed_rate, nullptr, daycount);
     }
 
+    /**
+     * @brief Define la estructura de una pata de flujos flotantes vinculada a un índice.
+     * @param start_date Fecha de inicio de devengo.
+     * @param payment_frequency Número de pagos anuales.
+     * @param tenor_years Plazo de la pata en años.
+     * @param notional Capital nominal del contrato.
+     * @param floating_index Puntero al índice de referencia (ej. Euribor).
+     * @param daycount Convención de conteo de días (por defecto ACT/360).
+     * @return Objeto descriptivo de la pata flotante.
+     */
     inline Description::LegDescription make_floating_leg(
         const std::string& start_date, int payment_frequency, int tenor_years, 
         double notional, std::shared_ptr<Market::Index> floating_index, const std::string& daycount = Conventions::ACT_360) 
@@ -114,10 +160,16 @@ namespace Quant {
     }
 
 
-    // --- 3. Abstracción de Instrumentos ---
+    // --- Abstracción de Instrumentos ---
     
-    // Ahora make_swap recibe las dos patas ya construidas. 
-    // Tú decides cuál es la pagadora (payer_leg) y cuál la receptora (receiver_leg).
+    /**
+     * @brief Crea un Swap financiero mediante la Factory a partir de dos definiciones de patas.
+     * @param payer_leg Descripción de la pata pagadora.
+     * @param receiver_leg Descripción de la pata receptora.
+     * @param discount_curve Curva de cupón cero utilizada para el descuento de flujos.
+     * @return Puntero único (unique_ptr) al Swap construido.
+     * @throw std::runtime_error Si el instrumento generado no es del tipo Swap.
+     */
     inline std::unique_ptr<Instruments::Swap> make_swap(
         const Description::LegDescription& payer_leg,
         const Description::LegDescription& receiver_leg,
@@ -137,7 +189,13 @@ namespace Quant {
         return std::unique_ptr<Instruments::Swap>(swap_ptr);
     }
 
-    // make_bond actualizado para usar la abstracción de patas
+    /**
+     * @brief Crea un Bono mediante la Factory.
+     * @param bond_leg Descripción de la pata de pagos del bono.
+     * @param discount_curve Curva para el descuento de los cupones y el principal.
+     * @return Puntero único al Bono construido.
+     * @throw std::runtime_error Si el instrumento generado no es un Bono válido.
+     */
     inline std::unique_ptr<Instruments::Bond> make_bond(
         const Description::LegDescription& bond_leg,
         std::shared_ptr<Market::ZeroCouponCurve> discount_curve) 
@@ -158,6 +216,11 @@ namespace Quant {
 
     // --- Módulo de Reportes ---
     namespace Reports {
+        /**
+         * @brief Imprime en consola el desglose de flujos de caja (Cashflows).
+         * @param title Encabezado del reporte.
+         * @param flows Vector de estructuras CashFlow con datos de fecha, tasa y valor presente.
+         */
         inline void print_cashflows(const std::string& title, const std::vector<Instruments::CashFlow>& flows) {
             std::cout << "\n>>> " << title << " <<<" << std::endl;
             std::cout << std::left << std::setw(12) << "Fecha" << std::setw(10) << "YF" << std::setw(10) << "Tasa" << std::setw(15) << "Cupón" << "PV" << std::endl;
@@ -168,7 +231,13 @@ namespace Quant {
                           << std::setw(10) << cf.rate << std::setw(15) << cf.amount << cf.pv << std::endl;
             }
         }
-
+        
+        /**
+         * @brief Genera un informe detallado de un Swap, incluyendo NPV, Par Rate y flujos de ambas patas.
+         * @param swap Referencia al objeto Swap a valorar.
+         * @param curve Curva de mercado para proyectar tasas flotantes.
+         * @param name Nombre descriptivo para el encabezado del informe.
+         */
         inline void print_swap_report(Instruments::Swap& swap, Market::MarketCurve& curve, const std::string& name) {
             std::cout << "\n====================================================" << std::endl;
             std::cout << "       INFORME: " << name << std::endl;
