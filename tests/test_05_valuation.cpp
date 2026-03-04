@@ -37,17 +37,17 @@ BOOST_AUTO_TEST_CASE(test_full_swap_valuation_and_par_rate) {
     double par_rate = swap->calculate_par_rate();
 
     BOOST_TEST_MESSAGE("RESULTADOS DEL CÁLCULO:");
-    BOOST_TEST_MESSAGE("  - NPV del swap: " << npv << " EUR");
-    BOOST_TEST_MESSAGE("  - Tasa par calculada: " << par_rate * 100 << "%");
+    BOOST_TEST_MESSAGE(" - NPV del swap: " << npv << " EUR");
+    BOOST_TEST_MESSAGE(" - Tasa par calculada: " << par_rate * 100 << "%");
 
     // El NPV no debe ser cero si la tasa fija (5%) no es la tasa par del mercado
-    BOOST_TEST_MESSAGE("  - ¿NPV distinto de cero? " << (std::abs(npv) > 0.0 ? "SÍ" : "NO"));
+    BOOST_TEST_MESSAGE(" - ¿NPV distinto de cero? " << (std::abs(npv) > 0.0 ? "SÍ" : "NO"));
     BOOST_CHECK(std::abs(npv) > 0.0);
     
     // La tasa par debe estar en un rango razonable
-    BOOST_TEST_MESSAGE("  - ¿Tasa par > 4.5%? " << (par_rate > 0.045 ? "SÍ" : "NO"));
-    BOOST_TEST_MESSAGE("  - ¿Tasa par < 5.5%? " << (par_rate < 0.055 ? "SÍ" : "NO"));
+    BOOST_TEST_MESSAGE(" - ¿Tasa par > 4.5%? " << (par_rate > 0.045 ? "SÍ" : "NO"));
+    BOOST_TEST_MESSAGE(" - ¿Tasa par < 5.5%? " << (par_rate < 0.055 ? "SÍ" : "NO"));
     BOOST_CHECK_GT(par_rate, 0.045);
     BOOST_CHECK_LT(par_rate, 0.055);
-    BOOST_TEST_MESSAGE(" =========== Test Swap valuación finalizado ===========");
+    BOOST_TEST_MESSAGE("=========== Test Swap valuación finalizado ===========");
 }

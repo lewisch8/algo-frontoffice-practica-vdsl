@@ -18,16 +18,16 @@ BOOST_AUTO_TEST_CASE(test_forward_rate_estimation) {
     boost::gregorian::date end_date(2017, 4, 3);
     
     BOOST_TEST_MESSAGE("Calculando tipo forward para el periodo:");
-    BOOST_TEST_MESSAGE("  - Fecha inicio: " << start_date);
-    BOOST_TEST_MESSAGE("  - Fecha fin: " << end_date);
-    BOOST_TEST_MESSAGE("  - Fracción de año (ACT/360): " << yf);
+    BOOST_TEST_MESSAGE(" - Fecha inicio: " << start_date);
+    BOOST_TEST_MESSAGE(" - Fecha fin: " << end_date);
+    BOOST_TEST_MESSAGE(" - Fracción de año (ACT/360): " << yf);
     
     double forward_rate = euribor.get_rate(start_date, end_date, yf);
     
     BOOST_TEST_MESSAGE("RESULTADOS:");
-    BOOST_TEST_MESSAGE("  - Tipo forward calculado: " << forward_rate * 100 << "%");
-    BOOST_TEST_MESSAGE("  - Tipo forward esperado: 5.334%");
-    BOOST_TEST_MESSAGE("  - Diferencia: " << (forward_rate - 0.05334) * 100 << "%");
+    BOOST_TEST_MESSAGE(" - Tipo forward calculado: " << forward_rate * 100 << "%");
+    BOOST_TEST_MESSAGE(" - Tipo forward esperado: 5.334%");
+    BOOST_TEST_MESSAGE(" - Diferencia: " << (forward_rate - 0.05334) * 100 << "%");
     
     // Verificaciones
     BOOST_CHECK_GT(forward_rate, 0.0);

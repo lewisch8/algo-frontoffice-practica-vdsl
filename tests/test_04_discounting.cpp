@@ -24,11 +24,11 @@ BOOST_AUTO_TEST_CASE(test_discount_factors) {
     // Verificación de la integridad del descuento
     for (const auto& cf : flujos) {
         // PV debe ser igual a Amount * Factor de Descuento (ZC)
-        BOOST_TEST_MESSAGE("  - PV esperado (amount * discount): " << cf.amount * cf.discount << " EUR");
-        BOOST_TEST_MESSAGE("  - Diferencia PV: " << (cf.pv - cf.amount * cf.discount) << " EUR");
+        BOOST_TEST_MESSAGE(" - PV esperado (amount * discount): " << cf.amount * cf.discount << " EUR");
+        BOOST_TEST_MESSAGE(" - Diferencia PV: " << (cf.pv - cf.amount * cf.discount) << " EUR");
         
         // Verificar que el factor de descuento es menor que 1
-        BOOST_TEST_MESSAGE("  - ¿Factor < 1.0?: " << (cf.discount < 1.0 ? "SÍ" : "NO"));
+        BOOST_TEST_MESSAGE(" - ¿Factor < 1.0?: " << (cf.discount < 1.0 ? "SÍ" : "NO"));
         BOOST_CHECK_CLOSE(cf.pv, cf.amount * cf.discount, 0.000001);
         
         // Con tasas positivas, el factor de descuento debe ser menor a 1.0

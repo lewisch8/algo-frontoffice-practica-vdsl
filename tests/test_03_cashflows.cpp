@@ -25,16 +25,16 @@ BOOST_AUTO_TEST_CASE(test_cashflow_amounts) {
     
     for (size_t i = 0; i < flujos.size(); ++i) {
         BOOST_TEST_MESSAGE("Flujo #" << (i+1) << ":");
-        BOOST_TEST_MESSAGE("  - Fracción de año: " << flujos[i].year_fraction);
-        BOOST_TEST_MESSAGE("  - Importe (sin descontar): " << flujos[i].amount << " EUR");
+        BOOST_TEST_MESSAGE(" - Fracción de año: " << flujos[i].year_fraction);
+        BOOST_TEST_MESSAGE(" - Importe (sin descontar): " << flujos[i].amount << " EUR");
     }
     
     // Comparando por el primer flujo
     double expected = nominal * tipo_fijo * flujos[0].year_fraction;    
     BOOST_TEST_MESSAGE("VERIFICACIÓN DEL PRIMER FLUJO:");
-    BOOST_TEST_MESSAGE("  - Cálculo esperado: nominal * tipo_fijo * fracción = " << expected << " EUR");
-    BOOST_TEST_MESSAGE("  - Importe calculado por get_cashflows(): " << flujos[0].amount << " EUR");
-    BOOST_TEST_MESSAGE("  - Diferencia: " << (flujos[0].amount - expected) << " EUR");
+    BOOST_TEST_MESSAGE(" - Cálculo esperado: nominal * tipo_fijo * fracción = " << expected << " EUR");
+    BOOST_TEST_MESSAGE(" - Importe calculado por get_cashflows(): " << flujos[0].amount << " EUR");
+    BOOST_TEST_MESSAGE(" - Diferencia: " << (flujos[0].amount - expected) << " EUR");
     
     BOOST_CHECK_CLOSE(flujos[0].amount, expected, 0.01);
 }
