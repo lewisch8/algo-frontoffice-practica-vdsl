@@ -31,8 +31,12 @@ public:
     }
 
     // Genera las fechas del cronograma
-    // Genera las fechas del cronograma
     void generate(const std::string& start_date_str, double years_total, int frequency) {
+
+        if (frequency <= 0) {
+            throw std::invalid_argument("La frecuencia de pago debe ser mayor a 0.");
+        }
+
         start_date_ = boost::gregorian::from_string(start_date_str);
         dates_.clear();
         
