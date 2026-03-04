@@ -15,7 +15,20 @@ public:
         : Instrument(std::move(c)), coupons_(std::move(leg)) {}
 
     double price() const override {
-        return coupons_->price(*curve_);
+        // Valor Presente de los cupones
+        double pv_coupons = coupons_->price(*curve_);
+        
+        // Valor Presente del Principal (Nocional) en la última fecha
+        const auto& dates = coupons_->get_schedule().get_dates();
+        if (dates.empty()) return pv_coupons;
+        
+        boost::gregorian::date maturity = dates.back();
+        double notional = coupons_->get_notional();
+        
+        double pv_principal = notional * curve_->get_zc(maturity);
+        
+        // Cupones + Principal
+        return pv_coupons + pv_principal;
     }
 };
 

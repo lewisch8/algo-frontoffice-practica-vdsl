@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE(test_full_swap_valuation_and_par_rate) {
     auto* swap = dynamic_cast<Instruments::Swap*>(irs_ptr.get());
 
     BOOST_REQUIRE(swap != nullptr);
-    BOOST_TEST_MESSAGE("(CHECK!!) Swap construido correctamente vía Factoria");
+    BOOST_TEST_MESSAGE("Swap construido correctamente vía Factoria");
 
     // Calculo de NPV y tasa par
     double npv = swap->price();
@@ -49,5 +49,5 @@ BOOST_AUTO_TEST_CASE(test_full_swap_valuation_and_par_rate) {
     BOOST_TEST_MESSAGE("  - ¿Tasa par < 5.5%? " << (par_rate < 0.055 ? "SÍ" : "NO"));
     BOOST_CHECK_GT(par_rate, 0.045);
     BOOST_CHECK_LT(par_rate, 0.055);
-    BOOST_TEST_MESSAGE(" =========== TEST FINALIZADO - TODAS LAS VERIFICACIONES CORRECTAS");
+    BOOST_TEST_MESSAGE(" =========== Test Swap valuación finalizado ===========");
 }

@@ -13,6 +13,7 @@ BOOST_AUTO_TEST_SUITE(DayCountCalculators)
 
 BOOST_AUTO_TEST_CASE(TestActual360)
 {
+    BOOST_TEST_MESSAGE(" =========== Inicio Test diferencia de días ACT_360 ===========");
     Actual_360 calc;
     std::string start = "2023-01-01";
     std::string end = "2023-03-01"; // 59 días reales
@@ -28,10 +29,12 @@ BOOST_AUTO_TEST_CASE(TestActual360)
     BOOST_TEST_MESSAGE("Diferencia: " << diferencia);
 
     BOOST_CHECK_CLOSE(resultado, esperado, TOLERANCIA);
+    BOOST_TEST_MESSAGE(" =========== Fin Test diferencia de días ACT_360 ===========");
 }
 
 BOOST_AUTO_TEST_CASE(TestThirty360_Standard)
 {
+    BOOST_TEST_MESSAGE(" =========== Inicio Test diferencia de días 30_360 ===========");
     Thirty_360 calc;
     std::string start = "2023-01-01";
     std::string end = "2023-03-01"; // 2 meses de 30 días = 60 días
@@ -47,6 +50,7 @@ BOOST_AUTO_TEST_CASE(TestThirty360_Standard)
     BOOST_TEST_MESSAGE("Diferencia: " << diferencia);
 
     BOOST_CHECK_SMALL(diferencia, TOLERANCIA);
+    BOOST_TEST_MESSAGE(" =========== Fin Test diferencia de días 30_360 ===========");
 }
 
 BOOST_AUTO_TEST_SUITE_END()
