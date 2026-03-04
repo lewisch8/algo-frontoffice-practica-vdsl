@@ -156,64 +156,29 @@ namespace Quant {
         return std::unique_ptr<Instruments::Bond>(bond_ptr);
     }
 
+    // --- Módulo de Reportes ---
     namespace Reports {
-
-        // Abstraemos la impresión de los flujos de caja
         inline void print_cashflows(const std::string& title, const std::vector<Instruments::CashFlow>& flows) {
             std::cout << "\n>>> " << title << " <<<" << std::endl;
-            std::cout << std::left << std::setw(12) << "Fecha" 
-                      << std::setw(10) << "YF" 
-                      << std::setw(10) << "Tasa" 
-                      << std::setw(15) << "Cupón" 
-                      << std::setw(12) << "Factor ZC" 
-                      << "PV" << std::endl;
-            std::cout << std::string(75, '-') << std::endl;
-
+            std::cout << std::left << std::setw(12) << "Fecha" << std::setw(10) << "YF" << std::setw(10) << "Tasa" << std::setw(15) << "Cupón" << "PV" << std::endl;
+            std::cout << std::string(60, '-') << std::endl;
             for (const auto& cf : flows) {
                 std::cout << std::left << std::setw(12) << Quant::to_string(cf.date)
-                          << std::fixed << std::setprecision(6) << std::setw(10) << cf.year_fraction
-                          << std::setprecision(4) << std::setw(10) << cf.rate
-                          << std::setprecision(2) << std::setw(15) << cf.amount
-                          << std::setprecision(6) << std::setw(12) << cf.discount
-                          << std::setprecision(2) << cf.pv << std::endl;
+                          << std::fixed << std::setprecision(4) << std::setw(10) << cf.year_fraction
+                          << std::setw(10) << cf.rate << std::setw(15) << cf.amount << cf.pv << std::endl;
             }
         }
 
-        // Abstraemos la valoración completa y el reporte del Swap
-        inline void print_swap_valuation(
-            Instruments::Swap* swap, 
-            Market::MarketCurve* discount_curve, 
-            const std::string& report_title = "SWAP") 
-        {
-            if (!swap || !discount_curve) {
-                std::cerr << "Error: Puntero nulo en la valoración del Swap." << std::endl;
-                return;
-            }
-
-            // 1. Cálculos de Valoración
-            double pv_payer = swap->get_payer_leg().price(*discount_curve);
-            double pv_receiver = swap->get_receiver_leg().price(*discount_curve);
-            double npv = swap->price();
-            double par_rate = swap->calculate_par_rate();
-
-            // 2. Impresión del Reporte Resumen
-            std::cout << std::fixed << std::setprecision(2);
+        inline void print_swap_report(Instruments::Swap& swap, Market::MarketCurve& curve, const std::string& name) {
             std::cout << "\n====================================================" << std::endl;
-            std::cout << "       INFORME DE VALORACIÓN: " << report_title << std::endl;
+            std::cout << "       INFORME: " << name << std::endl;
             std::cout << "====================================================" << std::endl;
-            std::cout << "PV Pata Pagadora:            " << std::setw(15) << pv_payer << " EUR" << std::endl;
-            std::cout << "PV Pata Receptora:           " << std::setw(15) << pv_receiver << " EUR" << std::endl;
-            std::cout << "----------------------------------------------------" << std::endl;
-            std::cout << "VALOR NETO (NPV):            " << std::setw(15) << npv << " EUR" << std::endl;
-            std::cout << "TASA SWAP (PAR RATE):        " << std::setw(15) << par_rate * 100.0 << " %" << std::endl;
-            std::cout << "====================================================" << std::endl;
-
-            // 3. Impresión de los Detalles de las Patas
-            print_cashflows("DETALLE PATA PAGADORA", swap->get_payer_leg().get_cashflows(*discount_curve));
-            print_cashflows("DETALLE PATA RECEPTORA", swap->get_receiver_leg().get_cashflows(*discount_curve));
+            std::cout << "NPV:          " << std::fixed << std::setprecision(2) << swap.price() << " EUR" << std::endl;
+            std::cout << "Par Rate:     " << swap.calculate_par_rate() * 100.0 << " %" << std::endl;
+            print_cashflows("PATA PAGADORA", swap.get_payer_leg().get_cashflows(curve));
+            print_cashflows("PATA RECEPTORA", swap.get_receiver_leg().get_cashflows(curve));
         }
-
-    } // namespace Reports
+    }
 }
 
 #endif // QUANT_HPP
