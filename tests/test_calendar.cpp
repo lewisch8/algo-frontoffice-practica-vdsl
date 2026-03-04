@@ -11,7 +11,7 @@ BOOST_AUTO_TEST_CASE(TestFirstBusinessDay_Scenarios)
     // Escenario 1
     // 01-Feb-2026 es Domingo -> Esperado: 02-Feb-2026 (Lunes)
     auto feb = Calendar::adjust_modified_following(2026, 2, 1);
-    BOOST_TEST_MESSAGE(" hola Escenario 1: 1 Febrero 2026 (empieza en domingo)");
+    BOOST_TEST_MESSAGE(" Escenario 1: 1 Febrero 2026 (empieza en domingo)");
     BOOST_TEST_MESSAGE("  Resultado esperado: 2026-Feb-02 (Lunes)  || Resultado obtenido: " << feb);
     BOOST_CHECK_EQUAL(feb.day(), 2);
     BOOST_CHECK_EQUAL(feb.day_of_week(), boost::date_time::Monday);
