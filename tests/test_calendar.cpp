@@ -7,7 +7,7 @@ BOOST_AUTO_TEST_SUITE(CalendarSuite)
 
 BOOST_AUTO_TEST_CASE(TestFirstBusinessDay_Scenarios)
 {
-    BOOST_TEST_MESSAGE(" =========== Inicio Test de Dia Util ===========");
+    BOOST_TEST_MESSAGE("=== Iniciando test de primer dia habil del mes ===");
     // Escenario 1
     // 01-Feb-2026 es Domingo -> Esperado: 02-Feb-2026 (Lunes)
     auto feb = Calendar::adjust_modified_following(2026, 2, 1);
@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE(TestFirstBusinessDay_Scenarios)
     BOOST_TEST_MESSAGE("  Resultado esperado: 2026-May-01 (Viernes)  || Resultado obtenido: " << may);
     BOOST_CHECK_EQUAL(may.day(), 1);
 
-    BOOST_TEST_MESSAGE(" =========== Fin del Test de Dia Util ===========");
+    BOOST_TEST_MESSAGE(" =========== Fin del Test de Dia Habil ===========");
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -6,7 +6,7 @@
 
 BOOST_AUTO_TEST_CASE(test_bond_valuation) {
     using namespace Quant;
-    BOOST_TEST_MESSAGE(" =========== Test de bono Inicio ===========");
+    BOOST_TEST_MESSAGE("=== Iniciando test de valoracion de un bono ===");
     boost::gregorian::date ref_date(2016, 4, 1);
     BOOST_TEST_MESSAGE("Fecha de referencia: " << ref_date);
     auto curva = std::make_shared<Market::MarketCurve>(ref_date);

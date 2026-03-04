@@ -4,6 +4,7 @@
 #include "quant/daycount/DayCountFactory.hpp"
 
 BOOST_AUTO_TEST_CASE(test_cashflow_amounts) {
+    BOOST_TEST_MESSAGE("=== Iniciando test de flujos de caja en pata fija ===");
     using namespace Quant;
     boost::gregorian::date ref_date(2016, 4, 1);
     BOOST_TEST_MESSAGE("Fecha de referencia: " << ref_date);

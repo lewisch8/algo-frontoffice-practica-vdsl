@@ -5,6 +5,7 @@
 #include "quant/market/MarketCurve.hpp"
 
 BOOST_AUTO_TEST_CASE(test_full_swap_valuation_and_par_rate) {
+    BOOST_TEST_MESSAGE("=== Iniciando test valoracion de swap y calculo tasa par ===");
     using namespace Quant;
     
     boost::gregorian::date ref_date(2016, 4, 1);

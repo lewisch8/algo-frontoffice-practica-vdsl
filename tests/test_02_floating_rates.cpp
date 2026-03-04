@@ -3,6 +3,7 @@
 #include "quant/market/MarketCurve.hpp"
 
 BOOST_AUTO_TEST_CASE(test_forward_rate_estimation) {
+    BOOST_TEST_MESSAGE("=== Iniciando test de tipos forward ===");
     using namespace Quant;
      boost::gregorian::date ref_date(2016, 4, 1);
     auto curve = std::make_shared<Market::MarketCurve>(ref_date);
@@ -31,5 +32,5 @@ BOOST_AUTO_TEST_CASE(test_forward_rate_estimation) {
     
     // Verificaciones
     BOOST_CHECK_GT(forward_rate, 0.0);
-    BOOST_CHECK_CLOSE(forward_rate, 0.05334, 0.5);
+    BOOST_CHECK_CLOSE(forward_rate, 0.05334, 0.05);
 }

@@ -4,6 +4,7 @@
 #include "quant/daycount/DayCountFactory.hpp"
 
 BOOST_AUTO_TEST_CASE(test_discount_factors) {
+    BOOST_TEST_MESSAGE("=== Iniciando test de factores de descuento en flujos de caja ===");
     using namespace Quant;
     boost::gregorian::date ref_date(2016, 4, 1);
     BOOST_TEST_MESSAGE("Fecha de referencia: " << ref_date);

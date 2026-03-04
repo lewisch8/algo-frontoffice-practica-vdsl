@@ -9,7 +9,7 @@ BOOST_AUTO_TEST_SUITE(ScheduleSuite)
 
 BOOST_AUTO_TEST_CASE(TestScheduleFullFlow)
 {
-    BOOST_TEST_MESSAGE(" =========== Inicio Test Generacion de fechas ===========");
+    BOOST_TEST_MESSAGE(" === Inicio Test Generacion de fechas ===");
     std::string start = "2016-04-01";
     int years = 2;
     int freq = 2; 
