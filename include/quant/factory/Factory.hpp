@@ -32,7 +32,7 @@ public:
     }
 
 private:
-    Factory() : buildersMap_() {} // effc++: inicialización de lista
+    Factory() : buildersMap_() {} 
     std::map<Description::InstrumentDescription::Type, Builder> buildersMap_;
 };
 
