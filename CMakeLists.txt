@@ -23,7 +23,7 @@ add_compile_options(
 find_package(Boost 1.83 REQUIRED CONFIG COMPONENTS system date_time unit_test_framework)
 
 set (SOURCES
-    apps/main.cpp
+    src/main.cpp
     src/daycount/DayCountFactory.cpp
     src/factory/SwapBuilder.cpp
     src/factory/BondBuilder.cpp)
