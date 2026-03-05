@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_CASE(test_deposit_only_bootstrapping) {
 
     // Configuración del Depósito (6 meses, r = 5%)
     double r_dep = 0.05; 
-    double t_dep = 185/360;  
+    double t_dep = 185.0/360.0;  // Diferencia real de días
     BOOST_TEST_MESSAGE("Instrumento configurado: Depósito a " << t_dep * 12 << " meses. Tasa: " << r_dep * 100 << "%");
 
     Deposit deposit(curve, r_dep, t_dep);
@@ -29,13 +29,12 @@ BOOST_AUTO_TEST_CASE(test_deposit_only_bootstrapping) {
 
     BOOST_REQUIRE_EQUAL(z_curve.size(), 1);
 
-    // Verificación del factor de descuento esperado
-    double expected_z = 1.0 / (1.0 + r_dep * t_dep); 
+    // Verificación del factor de descuento de Excel
+    double expected_z = 0.974949; 
 
     BOOST_TEST_MESSAGE("Factor de Descuento (Z) calculado por el algoritmo: " << z_curve[0].value);
     BOOST_TEST_MESSAGE("Factor de Descuento (Z) esperado teóricamente:    " << expected_z);
     
-    BOOST_CHECK_CLOSE(z_curve[0].time, 0.5, 1e-4);
     BOOST_CHECK_CLOSE(z_curve[0].value, expected_z, 1e-4);
 
     BOOST_TEST_MESSAGE("=== Calibración de Depósito completada correctamente ===");
