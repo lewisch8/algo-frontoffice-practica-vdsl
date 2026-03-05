@@ -18,7 +18,7 @@ public:
         // Valor Presente de los cupones
         double pv_coupons = coupons_->price(*curve_);
         
-        // Valor Presente del Principal (Nocional) en la última fecha
+        // Valor Presente del principal en la última fecha
         const auto& dates = coupons_->get_schedule().get_dates();
         if (dates.empty()) return pv_coupons;
         

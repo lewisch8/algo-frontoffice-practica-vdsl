@@ -183,7 +183,7 @@ namespace Quant {
         auto swap_ptr = dynamic_cast<Instruments::Swap*>(instrument.release());
         
         if (!swap_ptr) {
-            throw std::runtime_error("Error Crítico: La Factory generó un instrumento que no es un Swap válido.");
+            throw std::runtime_error("Error: La Factory generó un instrumento que no es un Swap válido.");
         }
         
         return std::unique_ptr<Instruments::Swap>(swap_ptr);
@@ -208,7 +208,7 @@ namespace Quant {
         auto bond_ptr = dynamic_cast<Instruments::Bond*>(instrument.release());
         
         if (!bond_ptr) {
-            throw std::runtime_error("Error Crítico: La Factory generó un instrumento que no es un Bono válido.");
+            throw std::runtime_error("Error: La Factory generó un instrumento que no es un Bono válido.");
         }
         
         return std::unique_ptr<Instruments::Bond>(bond_ptr);

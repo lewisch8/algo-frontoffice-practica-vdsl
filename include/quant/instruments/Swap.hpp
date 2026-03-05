@@ -34,7 +34,7 @@ public:
         const auto& floating_leg = get_floating_leg();
         double pv_floating = floating_leg.price(*curve_);
         
-        // Necesitamos la suma de (alpha * ZC) de la pata fija
+        // Suma de (alpha * ZC) de la pata fija
         const auto& dates = fixed_leg.get_schedule().get_dates();
         const auto& yfs = fixed_leg.get_schedule().get_year_fractions();
         
@@ -43,8 +43,8 @@ public:
             annuity += yfs[i] * curve_->get_zc(dates[i]);
         }
 
-        // Tasa Par = PV Variable / (Nocional * Annuity)
-        // Asumiendo que el nocional es el mismo para ambas patas
+        // Tasa Par = PV Variable / (Notional * Annuity)
+        // Asumiendo que el notional es el mismo para ambas patas
         return pv_floating / (fixed_leg.get_notional() * annuity);
     }
 

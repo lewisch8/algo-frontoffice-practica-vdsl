@@ -36,6 +36,7 @@ namespace Quant::Calendar {
             return adjusted;
         }
 
+        // Convención MODIFIED FOLLOWING: para anho, mes, dia
         static date adjust_modified_following(unsigned short year, unsigned short month, unsigned short day) {
             date d(year, month, day);
 
@@ -51,6 +52,7 @@ namespace Quant::Calendar {
             return adjusted;
         }
 
+        // Convención MODIFIED FOLLOWING: para anho, mes, dia en formato string
         static boost::gregorian::date adjust_modified_following(const std::string& date_str) {
             boost::gregorian::date d = boost::gregorian::from_string(date_str);
             date adjusted = adjust_following(d);

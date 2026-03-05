@@ -9,7 +9,6 @@ namespace Quant::Time {
 
 class Thirty_360 : public DayCountCalculator {
 public:
-    // Mantenemos tus métodos estáticos para lógica interna
     static short compute_daycount(const std::string& from, const std::string& to);
     static short compute_daycount(const boost::gregorian::date& from, const boost::gregorian::date& to);
     static short compute_daycount(short years, short months, short days_from, short days_to);
@@ -26,7 +25,7 @@ public:
 };
 
 inline short Thirty_360::compute_daycount(short years, short months, short days_from, short days_to) {
-    // Aplicando la lógica 30/360:
+    // Lógica 30/360:
     return static_cast<short>((360 * years) + 30 * (months - 1) + 
            std::max(0, 30 - (int)days_from) + std::min(30, (int)days_to));
 }

@@ -44,10 +44,10 @@ public:
         int total_periods = static_cast<int>(years_total * frequency);
 
         for (int i = 1; i <= total_periods; ++i) {
-            // 1. Calculamos la fecha teórica exacta (ej: 15 de abril -> 15 de octubre)
+            // Fecha teórica exacta
             auto theoretical = start_date_ + boost::gregorian::months(i * months_step);
             
-            // 2. Ajustamos respetando el fin de semana usando Modified Following
+            // Uso de Modified Following
             auto adjusted = Calendar::Calendar::adjust_modified_following(theoretical);
             
             dates_.push_back(adjusted);

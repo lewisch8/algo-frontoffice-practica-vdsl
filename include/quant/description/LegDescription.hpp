@@ -3,7 +3,7 @@
 
 #include <string>
 #include <memory>
-#include "../market/Index.hpp" // Incluimos el Index
+#include "../market/Index.hpp"
 
 namespace Quant::Description {
 
