@@ -41,14 +41,27 @@ BOOST_AUTO_TEST_CASE(test_full_swap_valuation_and_par_rate) {
     BOOST_TEST_MESSAGE(" - NPV del swap: " << npv << " EUR");
     BOOST_TEST_MESSAGE(" - Tasa par calculada: " << par_rate * 100 << "%");
 
-    // El NPV no debe ser cero si la tasa fija (5%) no es la tasa par del mercado
+    // Comprobacion básica
     BOOST_TEST_MESSAGE(" - ¿NPV distinto de cero? " << (std::abs(npv) > 0.0 ? "SÍ" : "NO"));
     BOOST_CHECK(std::abs(npv) > 0.0);
     
-    // La tasa par debe estar en un rango razonable
+    double expected_value = 497431.4321;
+    BOOST_TEST_MESSAGE(" - ¿PV es similar al obtenido en Excel? " << (std::abs(npv - expected_value) < 0.01 ? "SÍ" : "NO"));
+    // Se compara la diferencia con 1 centimo de euro
+    BOOST_CHECK_SMALL(std::abs(npv - expected_value), 0.01);
+
+    double expected_par_value = 0.052611;
+    // Comprobacion básica
     BOOST_TEST_MESSAGE(" - ¿Tasa par > 4.5%? " << (par_rate > 0.045 ? "SÍ" : "NO"));
     BOOST_TEST_MESSAGE(" - ¿Tasa par < 5.5%? " << (par_rate < 0.055 ? "SÍ" : "NO"));
     BOOST_CHECK_GT(par_rate, 0.045);
     BOOST_CHECK_LT(par_rate, 0.055);
+
+    BOOST_TEST_MESSAGE(" - ¿Spread es similar al obtenido en Excel? " << (std::abs(par_rate - expected_par_value) < 0.0001 ? "SÍ" : "NO"));
+    // Se compara la diferencia con 1 punto basico
+    BOOST_CHECK_SMALL(std::abs(par_rate - expected_par_value), 0.01);
+
+
+    
     BOOST_TEST_MESSAGE("=========== Test Swap valuación finalizado ===========");
 }

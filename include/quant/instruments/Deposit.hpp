@@ -7,6 +7,7 @@ namespace Quant::Instruments {
 
 class Deposit : public Instrument {
 public:
+    // Para un maturity especifico
     Deposit(std::shared_ptr<Market::ZeroCouponCurve> curve, double rate, double maturity) 
         : Instrument(std::move(curve)), rate_(rate), maturity_(maturity) {}
 

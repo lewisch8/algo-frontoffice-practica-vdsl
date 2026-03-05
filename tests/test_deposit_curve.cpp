@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_CASE(test_deposit_only_bootstrapping) {
 
     // Configuración del Depósito (6 meses, r = 5%)
     double r_dep = 0.05; 
-    double t_dep = 0.5;  
+    double t_dep = 185/360;  
     BOOST_TEST_MESSAGE("Instrumento configurado: Depósito a " << t_dep * 12 << " meses. Tasa: " << r_dep * 100 << "%");
 
     Deposit deposit(curve, r_dep, t_dep);
