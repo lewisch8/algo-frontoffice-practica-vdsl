@@ -22,5 +22,5 @@ namespace {
     FactoryRegistrator<SwapBuilder> registration;
 }
 
-} // namespace Quant::Factory
+}
 #endif

@@ -23,5 +23,5 @@ namespace {
     FactoryRegistrator<BondBuilder> bond_registration;
 }
 
-} // namespace Quant::Factory
+}
 #endif

@@ -47,6 +47,6 @@ inline short Thirty_360::compute_daycount(const std::string& from, const std::st
                            boost::gregorian::from_string(to));
 }
 
-} // namespace Quant::Time
+} 
 
 #endif

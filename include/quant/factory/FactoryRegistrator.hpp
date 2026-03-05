@@ -14,5 +14,5 @@ public:
     }
 };
 
-} // namespace Quant::Factory
+}
 #endif

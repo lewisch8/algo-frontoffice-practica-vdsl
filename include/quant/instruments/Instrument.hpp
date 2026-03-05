@@ -19,5 +19,5 @@ public:
     virtual double price() const = 0;
 };
 
-} // namespace Quant::Instruments
+}
 #endif

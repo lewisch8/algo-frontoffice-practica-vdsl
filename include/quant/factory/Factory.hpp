@@ -36,5 +36,5 @@ private:
     std::map<Description::InstrumentDescription::Type, Builder> buildersMap_;
 };
 
-} // namespace Quant::Factory
+}
 #endif

@@ -46,4 +46,4 @@ std::unique_ptr<Instruments::Instrument> SwapBuilder::build(const Description::I
     return std::make_unique<Instruments::Swap>(curve, std::move(payer_leg), std::move(receiver_leg));
 }
 
-} // namespace Quant::Factory
+}

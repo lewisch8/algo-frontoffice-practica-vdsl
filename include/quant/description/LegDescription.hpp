@@ -37,5 +37,5 @@ struct LegDescription {
     {}
 };
 
-} // namespace Quant::Description
+}
 #endif

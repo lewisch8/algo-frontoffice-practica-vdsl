@@ -68,22 +68,22 @@ BOOST_AUTO_TEST_CASE(test_swap_curve_calibration) {
     
     // Test: Factor del depósito (Iteración 0)
     double expected_z_dep = 0.974949;
-    BOOST_TEST_MESSAGE("[Pilar 1 - 6m] Z calculado: " << z_curve[0].value << " | Z teórico: " << expected_z_dep);
+    BOOST_TEST_MESSAGE("[Pilar 1 - 6m] Z calculado: " << z_curve[0].value << " | Z esperado: " << expected_z_dep);
     BOOST_CHECK_CLOSE(z_curve[0].value, expected_z_dep, 1e-4);
 
     // Test: Factor del Swap a 12m (Iteración 1)
     double expected_z_12m = 0.946136;
-    BOOST_TEST_MESSAGE("[Pilar 2 - 12m] Z calculado: " << z_curve[1].value << " | Z teórico: " << expected_z_12m);
+    BOOST_TEST_MESSAGE("[Pilar 2 - 12m] Z calculado: " << z_curve[1].value << " | Z esperado: " << expected_z_12m);
     BOOST_CHECK_CLOSE(z_curve[1].value, expected_z_12m, 1e-4);
 
     // Test: Factor del Swap a 18m (Iteración 2)
     double expected_z_18m = 0.913529;
-    BOOST_TEST_MESSAGE("[Pilar 3 - 18m] Z calculado: " << z_curve[2].value << " | Z teórico: " << expected_z_18m);
+    BOOST_TEST_MESSAGE("[Pilar 3 - 18m] Z calculado: " << z_curve[2].value << " | Z esperado: " << expected_z_18m);
     BOOST_CHECK_CLOSE(z_curve[2].value, expected_z_18m, 1e-4);
 
     // Test: Factor del Swap a 2y (Iteración 3)
     double expected_z_24m = 0.879314;
-    BOOST_TEST_MESSAGE("[Pilar 4 - 24m] Z calculado: " << z_curve[3].value << " | Z teórico: " << expected_z_24m);
+    BOOST_TEST_MESSAGE("[Pilar 4 - 24m] Z calculado: " << z_curve[3].value << " | Z esperado: " << expected_z_24m);
     BOOST_CHECK_CLOSE(z_curve[3].value, expected_z_24m, 1e-4);
 
     BOOST_TEST_MESSAGE("=== Todos los factores de descuento coinciden con los cálculos teóricos ===");

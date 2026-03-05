@@ -24,5 +24,5 @@ private:
     double maturity_; // Expresado en años
 };
 
-} // namespace Quant::Instruments
+}
 #endif

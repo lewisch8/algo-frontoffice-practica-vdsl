@@ -13,5 +13,5 @@ public:
     virtual double get_dcf(const boost::gregorian::date& d1, const boost::gregorian::date& d2) const = 0;
 };
 
-} // namespace Quant::Market
+}
 #endif

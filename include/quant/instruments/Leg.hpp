@@ -15,7 +15,7 @@ enum class LegType {
 struct CashFlow {
     boost::gregorian::date date;
     double year_fraction;
-    double rate;       // Tasa aplicada (fija o proyectada)
+    double rate;       // Tasa aplicada
     double amount;     // Cupón sin descontar
     double discount;   // Factor de descuento (ZC)
     double pv;         // Valor presente del cupón
@@ -45,5 +45,5 @@ public:
     virtual std::vector<CashFlow> get_cashflows(const Market::ZeroCouponCurve& curve) const = 0;
 };
 
-} // namespace Quant::Instruments
+}
 #endif

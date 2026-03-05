@@ -25,6 +25,6 @@ struct InstrumentDescription {
         : type(t), legs{std::move(leg)}, discount_curve(std::move(curve)) {}
 };
 
-} // namespace Quant::Description
+} 
 
 #endif

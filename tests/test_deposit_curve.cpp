@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE(test_deposit_only_bootstrapping) {
     double expected_z = 0.974949; 
 
     BOOST_TEST_MESSAGE("Factor de Descuento (Z) calculado por el algoritmo: " << z_curve[0].value);
-    BOOST_TEST_MESSAGE("Factor de Descuento (Z) esperado teóricamente:    " << expected_z);
+    BOOST_TEST_MESSAGE("Factor de Descuento (Z) esperado:    " << expected_z);
     
     BOOST_CHECK_CLOSE(z_curve[0].value, expected_z, 1e-4);
 

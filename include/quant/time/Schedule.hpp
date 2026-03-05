@@ -76,6 +76,6 @@ public:
     const boost::gregorian::date& get_start_date() const { return start_date_; }
 };
 
-} // namespace Quant::Time
+}
 
 #endif

@@ -57,5 +57,5 @@ public:
     }
 };
 
-} // namespace Quant::Instruments
+}
 #endif

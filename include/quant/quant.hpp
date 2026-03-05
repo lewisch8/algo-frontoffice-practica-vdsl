@@ -236,7 +236,7 @@ namespace Quant {
          * @brief Genera un informe detallado de un Swap, incluyendo NPV, Par Rate y flujos de ambas patas.
          * @param swap Referencia al objeto Swap a valorar.
          * @param curve Curva de mercado para proyectar tasas flotantes.
-         * @param name Nombre descriptivo para el encabezado del informe.
+         * @param name Nombre para el encabezado del informe.
          */
         inline void print_swap_report(Instruments::Swap& swap, Market::MarketCurve& curve, const std::string& name) {
             std::cout << "\n====================================================" << std::endl;
@@ -250,4 +250,4 @@ namespace Quant {
     }
 }
 
-#endif // QUANT_HPP
+#endif
