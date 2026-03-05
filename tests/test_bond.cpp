@@ -42,6 +42,11 @@ BOOST_AUTO_TEST_CASE(test_bond_valuation) {
     BOOST_TEST_MESSAGE("  - ¿PV < 110.000.000 EUR? " << (pv < 110000000.0 ? "SÍ" : "NO"));
     BOOST_CHECK_LT(pv, 110000000.0); 
 
+    // Valor obtenido en Excel
+    double expected_pv = 99372325.8845;
+    BOOST_TEST_MESSAGE("  - ¿PV es similar al obtenido en Excel? " << (std::abs(pv - expected_pv) < 0.01 ? "SÍ" : "NO"));
+    // Se compara la diferencia con 1 centimo de euro
+    BOOST_CHECK_SMALL(std::abs(pv - expected_pv), 0.01);
     
     // Verificación de precisión: con tasas del 5% y cupón del 5%, el precio debe estar cerca de 100M
     BOOST_CHECK_CLOSE(pv, 100000000.0, 10.0); // Margen de tolerancia del 10%
